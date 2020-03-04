@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>用户登录</title>
+    <title>用户登录-login</title>
     <!--引入css-->
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/dataTables/dataTables.bootstrap.css"/>
@@ -185,15 +185,19 @@
     <script type="text/javascript">
         function changeImg() {
             $('#code').removeAttr("src");
-            $('#code').hide().attr("src","/gainCAPTCHA?"+new Date().getTime()).fadeIn();
+            $('#code').hide().attr("src","/getValidCode?"+new Date().getTime()).fadeIn();
         };
         function toRegister() {
             window.location.href = "/emp/empRegister";
         }
+
+        function toRegister() {
+            $("#formId").submit();
+        }
     </script>
 </head>
 <body class="login-page">
-<form action="#" th:action="@{/emplogin}" th:object="${employees}" method="post">
+<form id="formId" action="dologin" method="post">
   <div th:if="${error !=null and error !=''}" class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <p th:text="${error}"></p>.
@@ -211,7 +215,7 @@
         <div class="l-userid">
           <div class="input-label-u"></div>
           <div  class="inputBox">
-            <input type="text" name="empid" class="form-control"/>
+            <input type="text" name="name" class="form-control"/>
           </div>
         </div>
         <div class="l-password">
@@ -223,8 +227,8 @@
         <div class="l-userid">
           <div class="input-label-r"></div>
           <div class="inputBox2">
-            <input type="text" name="CAPTCHA" class="form-control captcha-input"/>
-            <img id="code" style="padding-left: 5px; height: 28px;" src="/gainCAPTCHA">
+            <input type="text" name="validCode" class="form-control captcha-input"/>
+            <img id="code" style="padding-left: 5px; height: 28px;" src="/getValidCode">
             <a style="color:#438eb9; padding-left: 5px; line-height: 28px; font-size: 10px" th:onclick="|changeImg()|">刷新</a>
           </div>
         </div>
