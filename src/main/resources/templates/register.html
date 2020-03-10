@@ -1,19 +1,119 @@
-<html>
-    <title>注册页面</title>
-    <head>欢迎注册</head>
-    <body>
-        <input type="text" placeholder="请输入账号" name="code" onclick="validate(this.val)">
-        <input>
-    </body>
-    <script>
-        function validate(value) {
-            if(value==''){
-                alert("hhh:"+value);
-            }
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <!--引入css-->
+    <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/dataTables/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" href="/css/datepicker/bootstrap-datetimepicker.css"/>
+    <link rel="stylesheet" href="/css/sweetalert/sweetalert2.min.css"/>
+    <!-- 引入js -->
+    <script type="text/javascript" src="/js/moment/moment.min.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/datepicker/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="/js/datepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="/js/dataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/js/dataTables/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="/js/sweetalert/sweetalert2.min.js"></script>
+    <script type="text/javascript">
+        //序列化对象
+        $.fn.serializeObject = function()
+        {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
 
+        function doRegister() {
+            $.ajax({
+                url:"/doRegister",
+                type:"post",
+                dataType:"json",
+                contentType :"application/json",
+                data: JSON.stringify($('#registerForm').serializeObject()),
+                success:function(data){
+                    if(data.code==200){
+                        alert(data.message);
+                        window.location.href = "/home";
+                    }else{
+                        alert(data.message);
+                    }
+                },
+                error:function () {
+                    alert("系统错误！")
+                }
+            });
         }
-        function register() {
 
+        //获取验证码
+        function getSmsCode() {
+            $.ajax({
+                url:"/dologin",
+                type:"post",
+                dataType:"json",
+                contentType :"application/json",
+                data: JSON.stringify($('#loginForm').serializeObject()),
+                success:function(data){
+                    if(data.code==200){
+                        alert(data.message);
+                        window.location.href = "/home";
+                    }else{
+                        alert(data.message);
+                    }
+                },
+                error:function () {
+                    alert("系统错误！")
+                }
+            });
         }
+
     </script>
+</head>
+<body class="login-page">
+<form id="registerForm"  method="post">
+    <div th:if="${error !=null and error !=''}" class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${error}"></p>.
+    </div>
+    <div class="login-content">
+        <div class="login-content-wrap">
+            <div class="login-form">
+                <div style="font-size:28px; padding: 20px; color: #fff">用户注册</div>
+                <div class="l-userid">
+                    <div class="input-label-u"></div>
+                    <div  class="inputBox">
+                        <p>请输入手机号：</p>
+                        <input type="text" name="name" class="form-control"/>
+                    </div>
+                </div>
+                <div class="l-password">
+                    <div class="input-label-p"></div>
+                    <div  class="inputBox">
+                        <button onclick="getSmsCode()">获取短信验证码：</button>
+                        <input type="text" name="smsCode" class="form-control"/>
+                    </div>
+                </div>
+                <div><input th:onclick="doRegister()" type="button" value="注册" class="btn btn-success l-button"/></div>
+                <div>&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    <div class="login-footer">
+        <div>&nbsp;</div>
+        <div><a class="footer-url" href="http://www.ectrip.com" target="_blank">[深圳鼎游]</a> 版权所有</div>
+    </div>
+</form>
+</body>
 </html>

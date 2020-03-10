@@ -13,4 +13,6 @@ import com.user.app.model.user.UserBase;
  */
 public interface UserBaseMapper extends BaseMapper<UserBase> {
 
+    Integer insertSelective(UserBase userBase);
+
 }

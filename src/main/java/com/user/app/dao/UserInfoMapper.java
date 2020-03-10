@@ -13,4 +13,6 @@ import com.user.app.model.user.UserInfo;
  */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
+    Integer insertSelective(UserInfo userInfo);
+
 }

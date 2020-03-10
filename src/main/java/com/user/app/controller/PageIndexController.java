@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +24,34 @@ import java.io.OutputStream;
 @RequestMapping(value = "/")
 public class PageIndexController {
 
+
+    @RequestMapping(value = "register", method = RequestMethod.GET)
+    public String toRegister(){
+        return "register";
+    }
+
+    //获取短信验证码
+    @RequestMapping(value = "getSmsCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getSmsCode(){
+
+        return "register";
+    }
+
+    @RequestMapping(value = "doRegister", method = RequestMethod.POST)
+    @ResponseBody
+    public Object doRegister(){
+
+        return "register";
+    }
+
+
+
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public String test(){
         return "home/home";
     }
+
 
     @RequestMapping(value = "userCentre")
     public String userCentre(ModelMap modelMap){
