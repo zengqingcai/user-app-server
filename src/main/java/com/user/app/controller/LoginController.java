@@ -4,9 +4,7 @@ import com.user.app.model.TestUser;
 import com.user.app.utils.VerifyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -14,14 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
+@RequestMapping(value = "/")
 public class LoginController {
 
     @RequestMapping(value = "gologin", method = RequestMethod.GET)
     public String test(){
         return "login";
     }
+
 
     @RequestMapping("/getValidCode")
     public void gainCAPTCHA(HttpServletResponse response, HttpServletRequest request) throws Exception{
@@ -39,7 +41,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/dologin", method = RequestMethod.POST)
-    public String emplogin(@RequestBody TestUser user,HttpServletRequest request) {
+    @ResponseBody
+    public Object emplogin(@RequestBody TestUser user, HttpServletRequest request) {
         HttpSession session=request.getSession();
         String validCode = (String) session.getAttribute("validCode");
         System.out.println("validCode:"+validCode);
@@ -47,7 +50,9 @@ public class LoginController {
 
         //登陆成功将登陆员工信息放入session
         session.setAttribute("user", user);
-        return "index";
+        Map<String,Object> msg = new HashMap<>();
+        msg.put("code",200);
+        return msg;
     }
 
     @RequestMapping("/loginout")

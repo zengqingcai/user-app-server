@@ -11,7 +11,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: ${user.app-pre}user-base
+    name: ${user.app-pre}user-app
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   datasource:

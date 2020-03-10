@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>挂号页</title>
+    <title>个人中心页</title>
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/dataTables/dataTables.bootstrap.css"/>
     <link rel="stylesheet" href="/css/datepicker/bootstrap-datetimepicker.css"/>
@@ -45,15 +45,15 @@
     </script>
 </head>
 <body>
-<div>
-    <p>第一个参数：</p>
-    <input id="input1" type="text">
-    <p>第二个参数：</p>
-    <input id = "input2" type="text">
-</div>
-<div>
-    <input th:value="${name}">，欢迎你！
-</div>
+    <div>
+        <p>第一个参数：</p>
+        <input id="input1" type="text">
+        <p>第二个参数：</p>
+        <input id = "input2" type="text">
+    </div>
+    <div>
+        <input th:value="${name}">，欢迎你！
+    </div>
 
 </body>
 </html>

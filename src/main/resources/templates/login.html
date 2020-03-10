@@ -183,6 +183,23 @@
     <script type="text/javascript" src="/js/dataTables/dataTables.bootstrap.js"></script>
     <script type="text/javascript" src="/js/sweetalert/sweetalert2.min.js"></script>
     <script type="text/javascript">
+        //序列化对象
+        $.fn.serializeObject = function()
+        {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function() {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
         function changeImg() {
             $('#code').removeAttr("src");
             $('#code').hide().attr("src","/getValidCode?"+new Date().getTime()).fadeIn();
@@ -191,59 +208,89 @@
             window.location.href = "/emp/empRegister";
         }
 
-        function toRegister() {
-            $("#formId").submit();
+        function doLogin() {
+            $.ajax({
+                url:"/dologin",
+                type:"post",
+                dataType:"json",
+                contentType :"application/json",
+                data: JSON.stringify($('#loginForm').serializeObject()),
+                success:function(data){
+                    if(data.code==200){
+                        alert(data.message);
+                        window.location.href = "/home";
+                    }else{
+                        alert(data.message);
+                    }
+                },
+                error:function () {
+                    alert("系统错误！")
+                }
+            });
         }
+
+        $(function(){
+            $("#submit").click(function () {
+                $.post("/dologin",$("#loginForm").serialize(), function (data) {
+                    if(data.code=="0"){
+                        window.location.href = "/index";
+                    }else if(data.code=="1"){
+                        $("#tick").text(data.message).css("color", "red");
+                    }
+                })
+            });
+        });
+
     </script>
 </head>
 <body class="login-page">
-<form id="formId" action="dologin" method="post">
-  <div th:if="${error !=null and error !=''}" class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <p th:text="${error}"></p>.
-  </div>
-  <div class="login-header">
-    <div class="logo">
-      <img src="/images/logo.png" alt="系统用户集成"/>
-      系统用户集成
+<form id="loginForm"  method="post">
+    <div th:if="${error !=null and error !=''}" class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <p th:text="${error}"></p>.
     </div>
-  </div>
-  <div class="login-content">
-    <div class="login-content-wrap">
-      <div class="login-form">
-        <div style="font-size:28px; padding: 20px; color: #fff">用户登录</div>
-        <div class="l-userid">
-          <div class="input-label-u"></div>
-          <div  class="inputBox">
-            <input type="text" name="name" class="form-control"/>
-          </div>
+    <div class="login-header">
+        <div class="logo">
+            <img src="/images/logo.png" alt="系统用户集成"/>
+            系统用户集成
         </div>
-        <div class="l-password">
-          <div class="input-label-p"></div>
-          <div  class="inputBox">
-            <input type="password" name="password" class="form-control"/>
-          </div>
+    </div>
+    <div class="login-content">
+        <div class="login-content-wrap">
+            <div class="login-form">
+                <div style="font-size:28px; padding: 20px; color: #fff">用户登录</div>
+                <div class="l-userid">
+                    <div class="input-label-u"></div>
+                    <div  class="inputBox">
+                        <input type="text" name="name" class="form-control"/>
+                    </div>
+                </div>
+                <div class="l-password">
+                    <div class="input-label-p"></div>
+                    <div  class="inputBox">
+                        <input type="password" name="password" class="form-control"/>
+                    </div>
+                </div>
+                <div class="l-userid">
+                    <div class="input-label-r"></div>
+                    <div class="inputBox2">
+                        <input type="text" name="validCode" class="form-control captcha-input"/>
+                        <img id="code" style="padding-left: 5px; height: 28px;" src="/getValidCode">
+                        <a style="color:#438eb9; padding-left: 5px; line-height: 28px; font-size: 10px" th:onclick="|changeImg()|">刷新</a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="register-p" onclick="toRegister()">用户注册</h5>
+                </div>
+                <div><input th:onclick="doLogin()" type="button" value="登录" class="btn btn-success l-button"/></div>
+                <div>&nbsp;</div>
+            </div>
         </div>
-        <div class="l-userid">
-          <div class="input-label-r"></div>
-          <div class="inputBox2">
-            <input type="text" name="validCode" class="form-control captcha-input"/>
-            <img id="code" style="padding-left: 5px; height: 28px;" src="/getValidCode">
-            <a style="color:#438eb9; padding-left: 5px; line-height: 28px; font-size: 10px" th:onclick="|changeImg()|">刷新</a>
-          </div>
-        </div>
-        <div>
-            <h5 class="register-p" onclick="toRegister()">用户注册</h5>
-        </div>
-        <div><input type="submit" value="登录" class="btn btn-success l-button"/></div>
+    </div>
+    <div class="login-footer">
         <div>&nbsp;</div>
-      </div>
+        <div><a class="footer-url" href="http://www.ectrip.com" target="_blank">[深圳鼎游]</a> 版权所有</div>
     </div>
-  </div>
-  <div class="login-footer">
-    <div>&nbsp;</div>
-    <div><a class="footer-url" href="http://www.ectrip.com" target="_blank">[深圳鼎游]</a> 版权所有</div>
-  </div>
 </form>
 </body>
 </html>

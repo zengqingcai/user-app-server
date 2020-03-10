@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>挂号页</title>
+    <title>个人中心页</title>
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/dataTables/dataTables.bootstrap.css"/>
     <link rel="stylesheet" href="/css/datepicker/bootstrap-datetimepicker.css"/>
@@ -26,34 +26,42 @@
     <script type="text/javascript">
 
         $(function(){
-            $.ajax({
-                url:"/user/loadMessage",
-                type:"post",
-                dataType:"json",
-                contentType :"application/json",
-                //data: JSON.stringify($('#myform').serializeObject()),
-                success:function(data){
-                    $("#input1").val(data.first);
-                    $("#input2").val(data.second);
-                },
-                error:function () {
-                    alert("系统错误！")
-                }
-            });
 
+            $(function(){
+                $.ajax({
+                    url:"/params/doSaveParams",
+                    type:"post",
+                    dataType:"json",
+                    contentType :"application/json",
+                    data: JSON.stringify($('#myform').serializeObject()),
+                    success:function(data){
+                        if(data.code==200){
+                            alert(data.message);
+                            window.location.href = "/params/paramsList";
+                        }else{
+                            alert(data.message);
+                        }
+                    },
+                    error:function () {
+                        alert("系统错误！")
+                    }
+                });
+
+            });
         });
     </script>
 </head>
 <body>
-<div>
-    <p>第一个参数：</p>
-    <input id="input1" type="text">
-    <p>第二个参数：</p>
-    <input id = "input2" type="text">
-</div>
-<div>
-    <input th:value="${name}">，欢迎你！
-</div>
+    <div>
+
+    </div>
+    <div>
+        <input th:value="${name}">，欢迎你！
+    </div>
+    <div>
+        <img src="">
+
+    </div>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.user.app.controller;
 
 import com.user.app.utils.VerifyUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,6 +23,15 @@ import java.io.OutputStream;
 @RequestMapping(value = "/")
 public class PageIndexController {
 
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public String test(){
+        return "home/home";
+    }
 
+    @RequestMapping(value = "userCentre")
+    public String userCentre(ModelMap modelMap){
+        modelMap.put("name","zhangsan");
+        return "home/user-centre";
+    }
 
 }
