@@ -205,12 +205,12 @@
             $('#code').hide().attr("src","/getValidCode?"+new Date().getTime()).fadeIn();
         };
         function toRegister() {
-            window.location.href = "/emp/empRegister";
+            window.location.href = "/register";
         }
 
         function doLogin() {
             $.ajax({
-                url:"/dologin",
+                url:"/doLogin",
                 type:"post",
                 dataType:"json",
                 contentType :"application/json",

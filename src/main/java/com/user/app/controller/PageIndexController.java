@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Authod:zeng
@@ -33,18 +34,31 @@ public class PageIndexController {
     private RedisUtil redisUtil;
 
 
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public String home(){
+        return "home";
+    }
+
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String toLogin(){
+        return "login";
+    }
+
     @RequestMapping(value = "register", method = RequestMethod.GET)
     public String toRegister(){
         return "register";
     }
 
     //获取短信验证码
-    @RequestMapping(value = "getSmsCode", method = RequestMethod.POST)
+    @RequestMapping(value = "getSmsCode", method = RequestMethod.GET)
     @ResponseBody
     public Object getSmsCode(@RequestBody String phone)throws Exception{
-        String url = "http://localhost:8016/sms/loginSmsCode";
+        String url = "http://localhost:8016/sms/getCode";
         //发送短信验证码
-        String response = HttpClientUtil.httpPostRequest(url, new HashMap<>());
+        Map<String,String> params = new HashMap<>();
+        params.put("buss","login");
+        String response = HttpClientUtil.httpPostRequest(url, params);
         redisUtil.set(response+phone,response,180);
         return "register";
     }
@@ -54,13 +68,6 @@ public class PageIndexController {
     public Object doRegister()throws Exception{
 
         return "register";
-    }
-
-
-
-    @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String test(){
-        return "home/home";
     }
 
 

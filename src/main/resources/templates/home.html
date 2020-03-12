@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+ <head>
+  <meta charset="UTF-8">
+  <title>主页面</title>
+
+  <!--引入css-->
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/css/dataTables/dataTables.bootstrap.css"/>
+  <link rel="stylesheet" href="/css/datepicker/bootstrap-datetimepicker.css"/>
+  <link rel="stylesheet" href="/css/sweetalert/sweetalert2.min.css"/>
+  <link href="/Content/sidebar-menu/sidebar-menu.css" rel="stylesheet" />
+  <link href="/Content/ace/css/ace-rtl.min.css" rel="stylesheet" />
+  <link href="/Content/ace/css/ace-skins.min.css" rel="stylesheet" />
+  <link href="/Content/toastr/toastr.min.css" rel="stylesheet" />
+  <link href="/css/bootstrap/bootstrap-tab.css" rel="stylesheet"/>
+  <style type="text/css">
+   .main {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 1200px;
+    padding: 20px;
+   }
+   .body{
+    width: 100%;
+    height: 80%;
+
+   }
+   .div1{
+    cursor: pointer
+   }
+  </style>
+  <!-- 引入js -->
+  <script type="text/javascript" src="/js/moment/moment.min.js"></script>
+  <script type="text/javascript" src="/js/jquery/jquery.js"></script>
+  <script type="text/javascript" src="/js/bootstrap/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/datepicker/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="/js/datepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+  <script type="text/javascript" src="/js/dataTables/jquery.dataTables.js"></script>
+  <script type="text/javascript" src="/js/dataTables/dataTables.bootstrap.js"></script>
+  <script type="text/javascript" src="/js/sweetalert/sweetalert2.min.js"></script>
+  <script src="/Content/sidebar-menu/sidebar-menu.js"></script>
+  <script src="/js/bootstrap/bootstrap-tab.js"></script>
+  <script type="text/javascript">
+
+      function goCentre() {
+          window.location.href="/userCentre";
+      }
+  </script>
+
+ </head>
+ <body th:class="body">
+  <div>
+    小曾app，欢迎你
+  </div>
+  <div th:class="body">
+。。。。。。。。。。。。。
+  </div>
+  <div>
+   <table>
+    <thead>
+     <tr>
+      <th th:onclick="goCentre()" th:class="div1">个人中心</th>
+      <th></th>
+      <th>活动信息</th>
+      <th></th>
+      <th>关于我们</th>
+     </tr>
+    </thead>
+   </table>
+  </div>
+
+ </body>
+</html>
