@@ -13,10 +13,11 @@ import java.util.Map;
  * @Authod:zeng
  * @Date: 2020/3/5 14:12
  * @Version: 0.0.1
+ * 个人中心
  */
 @Controller
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserCentreController {
 
     @RequestMapping(value = "/loadMessage",method = RequestMethod.GET)
     @ResponseBody
@@ -30,4 +31,8 @@ public class UserController {
         String response = HttpClientUtil.httpPostRequest(url, new HashMap<>());
         return map;
     }
+
+
+
+
 }

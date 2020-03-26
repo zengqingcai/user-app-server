@@ -36,6 +36,7 @@
             return o;
         };
 
+
         function doRegister() {
             $.ajax({
                 url:"/doRegister",
@@ -44,7 +45,7 @@
                 contentType :"application/json",
                 data: JSON.stringify($('#registerForm').serializeObject()),
                 success:function(data){
-                    if(data.code==200){
+                    if(data.code=="0000"){
                         alert(data.message);
                         window.location.href = "/home";
                     }else{
@@ -53,6 +54,7 @@
                 },
                 error:function () {
                     alert("系统错误！")
+                    window.location.href = "/login";
                 }
             });
         }
@@ -95,14 +97,14 @@
                     <div class="input-label-u"></div>
                     <div  class="inputBox">
                         <p>请输入手机号：</p>
-                        <input type="text" name="name" class="form-control"/>
+                        <input type="text" class="form-control" name="code" th:name="code"/>
                     </div>
                 </div>
                 <div class="l-password">
                     <div class="input-label-p"></div>
                     <div  class="inputBox">
                         <button onclick="getSmsCode()">获取短信验证码：</button>
-                        <input type="text" name="smsCode" class="form-control"/>
+                        <input type="text" name="smsCode" class="form-control" th:name="smsCode"/>
                     </div>
                 </div>
                 <div><input th:onclick="doRegister()" type="button" value="注册" class="btn btn-success l-button"/></div>

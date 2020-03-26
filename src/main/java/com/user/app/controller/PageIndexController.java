@@ -1,8 +1,12 @@
 package com.user.app.controller;
 
+import com.user.common.model.CodeMsg;
 import com.user.app.config.RedisUtil;
+import com.user.app.model.TestUser2;
+import com.user.app.model.news.News;
+import com.user.app.model.user.UserBase;
+import com.user.app.remote.UserAppFeignService;
 import com.user.app.utils.HttpClientUtil;
-import com.user.app.utils.VerifyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,13 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
-import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,9 +36,26 @@ public class PageIndexController {
 
 
     @RequestMapping(value = "home", method = RequestMethod.GET)
-    public String home(){
+    public String home(ModelMap modelMap){
+        modelMap.put("src1","/images/rd_icon.png");
+        modelMap.put("title","today News");
+        modelMap.put("aSrc","/title");
+
+        News news = new News(1,"title1","America News");
+        News news1 = new News(2,"title2","China News");
+        News news2 = new News(3,"title3","今日头条");
+        List<News> list = Arrays.asList(news,news1,news2);
+        modelMap.put("list",list);
         return "home";
     }
+
+    @RequestMapping(value = "title", method = RequestMethod.GET)
+    public String title(ModelMap modelMap){
+
+        return "home";
+    }
+
+
 
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -63,11 +81,21 @@ public class PageIndexController {
         return "register";
     }
 
-    @RequestMapping(value = "doRegister", method = RequestMethod.POST)
-    @ResponseBody
-    public Object doRegister()throws Exception{
+    @Autowired
+    private UserAppFeignService userAppFeignService;
 
-        return "register";
+
+    @RequestMapping("doRegister")
+    @ResponseBody
+    public CodeMsg doRegister(@RequestBody TestUser2 user,HttpServletResponse response)throws Exception {
+        //todo 还有短信业务
+        UserBase userBase = new UserBase();
+        userBase.setCode(user.getCode());
+        CodeMsg codeMsg = userAppFeignService.saveUserBase(userBase);
+        System.out.println(codeMsg.getCode());
+
+        response.setHeader("token","token:"+user.getCode());
+        return codeMsg;
     }
 
 

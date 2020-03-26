@@ -31,15 +31,16 @@ public class LoginInterceptor implements HandlerInterceptor{
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie cookie = getCookie(request, "zengyiliang");
-        if (null == cookie) {
-            response.sendRedirect("/login");
-            return false;
-        } else {
-            TestUser user = (TestUser) redisUtil.get(cookie.getValue());
-            UserContext.setTestUser(user);
-            return true;
-        }
+//        Cookie cookie = getCookie(request, "zengyiliang");
+//        if (null == cookie) {
+//            response.sendRedirect("/login");
+//            return false;
+//        } else {
+//            TestUser user = (TestUser) redisUtil.get(cookie.getValue());
+//            UserContext.setTestUser(user);
+//            return true;
+//        }
+        return true;
 
     }
 

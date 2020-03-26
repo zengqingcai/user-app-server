@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
  <head>
   <meta charset="UTF-8">
   <title>主页面</title>
@@ -16,6 +15,7 @@
   <link href="/Content/ace/css/ace-skins.min.css" rel="stylesheet" />
   <link href="/Content/toastr/toastr.min.css" rel="stylesheet" />
   <link href="/css/bootstrap/bootstrap-tab.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/app/home.css">
   <style type="text/css">
    .main {
     width: 100%;
@@ -53,23 +53,27 @@
  </head>
  <body th:class="body">
   <div>
-    小曾app，欢迎你
+    小曾app，欢迎你:
   </div>
   <div th:class="body">
+   <img th:src="@{${src1}}"><img src="/images/psw_icon.png"><br>
+   <a th:href="${aSrc}" th:text="${title}"></a><br>
+   <table th:each="news:${list}">
+     <tr style="width: 40px;">
+      <p th:text="${news.content}"></p>
+      <!--<a class="" th:text="${news.content}" th:href="${news.title}"/>-->
+     </tr>
+   </table>
+   按钮循环：
+   <div th:each="news:${list}">
+    <input th:value="${news.title=='title2'?'one':'two'}" type="button"><br>
+   </div>
 。。。。。。。。。。。。。
   </div>
   <div>
-   <table>
-    <thead>
-     <tr>
-      <th th:onclick="goCentre()" th:class="div1">个人中心</th>
-      <th></th>
-      <th>活动信息</th>
-      <th></th>
-      <th>关于我们</th>
-     </tr>
-    </thead>
-   </table>
+   <input class="buutonClass" th:value="个人中心" type="button"/>
+   <input class="buutonClass" th:value="信息服务" type="button"/>
+   <input class="buutonClass" th:value="关于我们" type="button"/>
   </div>
 
  </body>
